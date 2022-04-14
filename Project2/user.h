@@ -4,6 +4,9 @@
 
 using namespace std;
 
+#include <iostream>
+using namespace std;
+
 class user
 {
 public:
@@ -13,9 +16,5 @@ public:
 	bool is_seller;
 	string phone;
 	string password;
-
-	user();
-	user(int id, string name, string email, bool is_seller, string phone, string password);
-	
 };
 
