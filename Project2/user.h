@@ -1,7 +1,8 @@
 #pragma once
-#include "product.h"
+#include <iostream>
 #include "LinkedList.h"
-#include <list>
+
+using namespace std;
 
 class user
 {
@@ -13,7 +14,8 @@ public:
 	string phone;
 	string password;
 
-	static user sparateUserData(char sign, string row);
-	static void select(string table, list<user> users);
+	user();
+	user(int id, string name, string email, bool is_seller, string phone, string password);
+	
 };
 

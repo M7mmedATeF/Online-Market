@@ -4,18 +4,18 @@
 
 // Classes
 #include "user.h"
-#include "LinkedList.h"
+#include "LinkedList.cpp"
 using namespace std;
 
 int main() {
-	LinkedList<int> L;
-	L.Append(9);
-	L.Append(10);
-	L.Append(11);
-	L.InsertAt(1, 100);
-	L.DeleteAt(3);
+	LinkedList<user> users;
 
-	for (int i = 0; i < L.Length(); i++)
-		cout << L.At(i) << endl;
+	user user1;
+	user1.id = 5;
+	
+	users.Append(user1);
+
+	for (int i = 0; i < users.Length(); i++)
+		cout << users.At(i).id << endl;
 	return 0;
 }
