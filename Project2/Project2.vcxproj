@@ -139,7 +139,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Global.cpp" />
     <ClCompile Include="LinkedList.cpp" />
     <ClCompile Include="product.cpp" />
     <ClCompile Include="recipt.cpp" />
@@ -150,7 +149,6 @@
     <Text Include="users.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Global.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="product.h" />
     <ClInclude Include="recipt.h" />
