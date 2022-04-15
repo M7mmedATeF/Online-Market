@@ -146,6 +146,7 @@
     <ClCompile Include="user.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="products.txt" />
     <Text Include="users.txt" />
   </ItemGroup>
   <ItemGroup>

@@ -80,6 +80,17 @@ void saveUsersData(string table, LinkedList<user>& users) {
 	file.close();
 }
 
+// Hager
+// Add new User
+void registeUser(user User) {
+	
+}
+// Edit User
+void editUser(int id, LinkedList<user>& users,user edit) {
+	
+}
+
+// Mazen
 // Timing
 LinkedList<string> separate(string list) {
 	LinkedList<string> separated;
@@ -95,8 +106,17 @@ LinkedList<string> separate(string list) {
 	}
 	return separated;
 }
+// Ids => 1,2,3,
+LinkedList<product> carteData(string IDs) {
+	LinkedList<product> temp;
 
-// Select with ID
+
+	return temp;
+}
+
+
+// Seif
+// Select with ID 
 user SelectUserWithID(string table , int id) {
 	/*ifstream file;
 	file.open(table);
@@ -130,8 +150,7 @@ user SelectUserWithID(string table , int id) {
 	}
 	file.close();*/
 }
-
-// Select with String 
+// Select with Stirng
 LinkedList<user> SelectUserWithWord(string table, string word) {
 
 	LinkedList<user> users;
@@ -142,13 +161,7 @@ LinkedList<user> SelectUserWithWord(string table, string word) {
 		continue;
 		*/
 }
-
-// 34Mawy
-user login(string email,string password) {
-	
-}
-
-// 
+// AhmEd => ahmed
 string toLowerCase(string word) {
 	for (int i = 0; i < word.length(); i++) {
 		// code
@@ -156,6 +169,13 @@ string toLowerCase(string word) {
 	return word;
 }
 
+
+// 34Mawy
+user login(string email,string password) {
+	
+}
+
+// Nariman
 // Validation email
 // asdasdasdad@sadasd.com
 bool isEmail(string email) {
@@ -167,6 +187,9 @@ bool isEmail(string email) {
 	return false;
 }
 
+// Mayar
+// validation name
+bool isName(string phone) {}
 // validation phone
 bool isPhone(string phone) {
 	for (int i = 0; i < phone.length(); i++) {
@@ -174,7 +197,6 @@ bool isPhone(string phone) {
 	}
 	return false;
 }
-
 // validation password
 bool isPassword(string password) {
 	for (int i = 0; i < password.length(); i++) {

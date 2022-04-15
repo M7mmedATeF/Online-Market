@@ -16,5 +16,6 @@ public:
 	bool is_seller;
 	string phone;
 	string password;
+	LinkedList<product> carte;
 };
 
