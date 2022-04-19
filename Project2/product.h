@@ -8,6 +8,7 @@ class product
 public:
 	int id;
 	string name;
+	string company;
 	int quantity;
 	double price;
 	int seller_id;

@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "LinkedList.h"
+#include "product.h"
 
 using namespace std;
 

@@ -1,0 +1,16 @@
+1
+bata
+shoes
+10
+50
+1
+shoes
+4.5
+2
+puma
+shoes2
+5
+300
+2
+shoes
+5

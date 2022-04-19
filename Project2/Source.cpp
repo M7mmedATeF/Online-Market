@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <regex>
 
 // Classes
 #include "user.cpp"
@@ -13,24 +14,16 @@ using namespace std;
 void selectUser(string table, LinkedList<user>& users);
 void saveUsersData(string table, LinkedList<user>& users);
 user SelectUserWithID(string table, int id);
+bool isName(string name);
+bool isPhone(string phone);
+bool isPassword(string password);
+bool isEmail(string email);
+void separate(string list, LinkedList<int>& IDs);
+void carteData(string IDstring, LinkedList<product>& products);
+product selectProduct(int id);
 
 int main() {
-	LinkedList<user> users;
-		
-	selectUser("users.txt", users);
 
-	user u1;
-	u1.id = 5;
-	u1.name = "43243432";
-	u1.password = "asdasd";
-	u1.email = "asdasd@";
-	u1.phone = "12312312";
-	u1.is_seller = 0;
-	
-	users.Append(u1);
-	
-
-	saveUsersData("users.txt", users);
 	
 	return 0;
 }
@@ -80,128 +73,111 @@ void saveUsersData(string table, LinkedList<user>& users) {
 	file.close();
 }
 
-// Hager
-// Add new User
-void registeUser(user User) {
-	
-}
-// Edit User
-void editUser(int id, LinkedList<user>& users,user edit) {
-	
-}
-
-// Mazen
-// Timing
-LinkedList<string> separate(string list) {
-	LinkedList<string> separated;
+void separate(string list, LinkedList<int>& IDs) {
 	string productID = "";
 	for (int i = 0; i < list.length(); i++) {
-		if(list[i] == ',') {
-			separated.Append(productID);
+		if (list[i] == ',') {
+			IDs.Append(stoi(productID));
 			productID = "";
 		}
 		else {
 			productID += list[i];
 		}
 	}
-	return separated;
 }
 // Ids => 1,2,3,
-LinkedList<product> carteData(string IDs) {
-	LinkedList<product> temp;
+void carteData(string IDstring , LinkedList<product>& products) {
+	LinkedList<int> IDs;
+	separate(IDstring,IDs);
+	for (int i = 0; i < IDs.Length(); i++)
+	{
+		products.Append(selectProduct(IDs.At(i)));
+	}
 
-
-	return temp;
 }
-
-
-// Seif
-// Select with ID 
-user SelectUserWithID(string table , int id) {
-	/*ifstream file;
-	file.open(table);
-	user temp;
+product selectProduct(int id) {
+	ifstream file;
+	file.open("products.txt");
+	product temp;
 	string data = "";
 	while (!file.eof()) {
 		// ID
 		getline(file, data);
 		temp.id = stoi(data);
-
-		// Name
+		
+		//company
+		getline(file, temp.company);
+		
+		//name
 		getline(file, temp.name);
-
-		// email
-		getline(file, temp.email);
-
-		// is_seller
+		
+		//quantity
 		getline(file, data);
-		temp.is_seller = stoi(data);
+		temp.quantity = stoi(data);
+		
+		//price
+		getline(file, data);
+		temp.price = stod(data);
+		
+		//seller-ID
+		getline(file, data);
+		temp.seller_id = stoi(data);
+		
+		//category
+		getline(file, temp.category);
+		
+		//rate
+		getline(file, data);
+		temp.rate = stof(data);
+		if (temp.id == id) {
+			file.close();
+			break;
+		}
 
-		// phone
-		getline(file, temp.phone);
-
-		// password
-		getline(file, temp.password);
-
-		if(temp.id ==id)
-			users.Append(temp);
-		else
-			continue;
 	}
-	file.close();*/
-}
-// Select with Stirng
-LinkedList<user> SelectUserWithWord(string table, string word) {
-
-	LinkedList<user> users;
-	user temp;
-	/*if (temp.name == word || temp.email == word || temp.phone == word) {
-		users.Append(temp);
-	else
-		continue;
-		*/
-}
-// AhmEd => ahmed
-string toLowerCase(string word) {
-	for (int i = 0; i < word.length(); i++) {
-		// code
-	}
-	return word;
-}
-
-
-// 34Mawy
-user login(string email,string password) {
-	
+	file.close();
+	return temp;
 }
 
 // Nariman
 // Validation email
-// asdasdasdad@sadasd.com
 bool isEmail(string email) {
-	for (int i = 0; i < email.length(); i++) {
-		if (email[i] == '@') {
-			return true;
-		}
-	}
-	return false;
+	//[[:w:]] word character: digit, number or under score
+	const regex pattern("[[:w:]]+@[[:w:]]+\.com");
+
+	return regex_match(email, pattern);
 }
 
 // Mayar
 // validation name
-bool isName(string phone) {}
+bool isName(string name) {
+	if (name.length() < 3)
+		return false;
+	else
+		return true;
+}
 // validation phone
-bool isPhone(string phone) {
-	for (int i = 0; i < phone.length(); i++) {
-		// code
-	}
-	return false;
-}
-// validation password
-bool isPassword(string password) {
-	for (int i = 0; i < password.length(); i++) {
-		// code
-	}
-	return false;
-}
+bool isPhone(string phone)
+{
+	bool m = true;
+	bool n = false;
 
+	for (int i = 0; i < phone.length(); i++) {
+		if (isdigit(phone[i]) == 0) {
+			m = false;
+			break;
+		}
+	}
+
+	if (phone.length() >= 11 && phone.length() <= 13)
+		n = true;
+
+	return (n && m);
+
+}// validation password
+bool isPassword(string password) {
+	if (password.length() < 5)
+		return false;
+	else
+		return true;
+}
