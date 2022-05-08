@@ -5,9 +5,6 @@
 
 using namespace std;
 
-#include <iostream>
-using namespace std;
-
 class user
 {
 public:
@@ -19,4 +16,3 @@ public:
 	string password;
 	LinkedList<product> carte;
 };
-

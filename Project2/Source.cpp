@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <regex>
+#include<windows.h>
 
 // Classes
 #include "user.cpp"
@@ -11,24 +12,70 @@ using namespace std;
 
 
 // Functions
-void selectUser(string table, LinkedList<user>& users);
+void selectUser(string table, LinkedList<user>& users, LinkedList<product>& products);
 void saveUsersData(string table, LinkedList<user>& users);
 user SelectUserWithID(string table, int id);
 bool isName(string name);
 bool isPhone(string phone);
 bool isPassword(string password);
 bool isEmail(string email);
-void separate(string list, LinkedList<int>& IDs);
-void carteData(string IDstring, LinkedList<product>& products);
-product selectProduct(int id);
+LinkedList<int> separate(string list);
+LinkedList<product> carteData(string IDstring, LinkedList<product>& products);
+void selectAllProducts(LinkedList<product>& products);
+user login(string email, string password, LinkedList<user>& users);
 
 int main() {
 
+	LinkedList<product> products;
+	selectAllProducts(products);
+	LinkedList<user> users;
+	selectUser("users.txt", users , products);
+	
+	/*user u = login("mo25atef@gmail.com", "37329812", users);
+	cout << u.name;*/
+
+	/*for (int i = 0; i < users.Length(); i++) {
+		cout << "*****************************\n";
+		cout << "Id: " << users.At(i).id << endl;
+		cout << "Name: " << users.At(i).name << endl;
+		cout << "Email: " << users.At(i).email << endl;
+		cout << "Is Seller: " << users.At(i).is_seller << endl;
+		cout << "Phone: " << users.At(i).phone << endl;
+		cout << "password: " << users.At(i).password << endl;
+		cout << "carte: " << endl;
+		for (int j = 0; j < users.At(i).carte.Length(); j++) {
+			cout << "\t ID: " << users.At(i).carte.At(j).id << endl;
+			cout << "\t name: " << users.At(i).carte.At(j).name << endl;
+			cout << "\t company: " << users.At(i).carte.At(j).company << endl;
+			cout << "\t quantity: " << users.At(i).carte.At(j).quantity << endl;
+			cout << "\t price: " << users.At(i).carte.At(j).price << endl;
+			cout << "\t seller_id: " << users.At(i).carte.At(j).seller_id << endl;
+			cout << "\t category: " << users.At(i).carte.At(j).category << endl;
+			cout << "\t rate: " << users.At(i).carte.At(j).rate << endl;
+		}
+	}*/
+
+	for (int i = 0; i < products.Length(); i++) {
+		cout << products.At(i).id << " " << products.At(i).name << endl;
+	}
 	
 	return 0;
 }
 
-void selectUser(string table, LinkedList<user>& users) {
+user login(string email, string password, LinkedList<user>& users) 
+{
+	for (int i = 0; i < users.Length(); i++) {
+		if(email == users.At(i).email && password == users.At(i).password)
+		{
+			return users.At(i);
+		}
+	}
+
+	return user();
+	
+}
+
+void selectUser(string table, LinkedList<user>& users , LinkedList<product>& products) {
 	ifstream file;
 	file.open(table);
 	user temp;
@@ -46,6 +93,7 @@ void selectUser(string table, LinkedList<user>& users) {
 
 		// is_seller
 		getline(file, data);
+		cout << data << endl;
 		temp.is_seller = stoi(data);
 
 		// phone
@@ -53,8 +101,13 @@ void selectUser(string table, LinkedList<user>& users) {
 
 		// password
 		getline(file, temp.password);
+		
+		// Carte
+		getline(file, data);
+		temp.carte = carteData(data , products);
 
 		users.Append(temp);
+		
 	}
 	file.close();
 }
@@ -69,12 +122,19 @@ void saveUsersData(string table, LinkedList<user>& users) {
 		file << users.At(i).is_seller << endl;
 		file << users.At(i).phone << endl;
 		file << users.At(i).password << endl;
+		string carte;
+		for (int j = 0; j < users.At(i).carte.Length(); j++) {
+			carte += "" + users.At(i).carte.At(j).id + ',';
+		}
 	}
 	file.close();
 }
 
-void separate(string list, LinkedList<int>& IDs) {
+// Mazen
+// Ids => 1,2,3,
+LinkedList<int> separate(string list) {
 	string productID = "";
+	LinkedList<int> IDs;
 	for (int i = 0; i < list.length(); i++) {
 		if (list[i] == ',') {
 			IDs.Append(stoi(productID));
@@ -84,18 +144,27 @@ void separate(string list, LinkedList<int>& IDs) {
 			productID += list[i];
 		}
 	}
+	return IDs;
 }
-// Ids => 1,2,3,
-void carteData(string IDstring , LinkedList<product>& products) {
-	LinkedList<int> IDs;
-	separate(IDstring,IDs);
-	for (int i = 0; i < IDs.Length(); i++)
+
+LinkedList<product> carteData(string IDstring, LinkedList<product>& products) {
+	LinkedList<int> IDs = separate(IDstring);
+	LinkedList<product> returned;
+
+	for (int i = 0; i < products.Length(); i++)
 	{
-		products.Append(selectProduct(IDs.At(i)));
+		for (int j = 0; j < IDs.Length(); i++)
+		{
+			if (IDs.At(j) == products.At(i).id) {
+				returned.Append(products.At(i));
+			}
+		}
 	}
 
+	return returned;
 }
-product selectProduct(int id) {
+
+void selectAllProducts(LinkedList<product>& products) {
 	ifstream file;
 	file.open("products.txt");
 	product temp;
@@ -128,15 +197,11 @@ product selectProduct(int id) {
 		
 		//rate
 		getline(file, data);
-		temp.rate = stof(data);
-		if (temp.id == id) {
-			file.close();
-			break;
-		}
+		temp.rate = stof(data);			
 
+		products.Append(temp);
 	}
 	file.close();
-	return temp;
 }
 
 // Nariman
